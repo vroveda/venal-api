@@ -28,39 +28,33 @@ app.get("/consulta", async (req, res) => {
 
     const page = await browser.newPage();
 
-    // Acessar novo site
+    // Acessar site certo
     await page.goto('https://itbi.prefeitura.sp.gov.br/valorereferencia/tvm/frm_tvm_consulta_valor.aspx', { waitUntil: 'networkidle2' });
 
-    // Separar campos da inscrição
+    // Separar a inscrição
     const bloco1 = inscricao.slice(0, 3);
     const bloco2 = inscricao.slice(3, 6);
     const bloco3 = inscricao.slice(6, 10);
     const bloco4 = inscricao.slice(10);
 
-    // Preencher inscrição
+    // Preencher campos
     await page.type('#ctl00_cphBody_txtCadastro1', bloco1);
     await page.type('#ctl00_cphBody_txtCadastro2', bloco2);
     await page.type('#ctl00_cphBody_txtCadastro3', bloco3);
     await page.type('#ctl00_cphBody_txtCadastro4', bloco4);
-    await page.type('#ctl00_cphBody_txtDataBase', dataHoje);
 
-    await Promise.all([
-      page.click('#ctl00_cphBody_btnPesquisar'),
-      page.waitForNavigation({ waitUntil: 'networkidle2' })
-    ]);
-
-    // Preencher data automática (hoje)
+    // Preencher data (hoje)
     const today = new Date();
     const day = String(today.getDate()).padStart(2, '0');
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const year = today.getFullYear();
     const dataHoje = `${day}/${month}/${year}`;
 
-    await page.type('input[name="ctl00$cphBody$txtDataBase"]', dataHoje);
+    await page.type('#ctl00_cphBody_txtDataBase', dataHoje);
 
-    // Clicar no botão "Pesquisar"
+    // Clicar em "Pesquisar"
     await Promise.all([
-      page.click('input[name="ctl00$cphBody$btnPesquisar"]'),
+      page.click('#ctl00_cphBody_btnPesquisar'),
       page.waitForNavigation({ waitUntil: 'networkidle2' })
     ]);
 
