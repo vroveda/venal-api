@@ -38,10 +38,16 @@ app.get("/consulta", async (req, res) => {
     const bloco4 = inscricao.slice(10);
 
     // Preencher inscrição
-    await page.type('input[name="ctl00$cphBody$txtCadastro1"]', bloco1);
-    await page.type('input[name="ctl00$cphBody$txtCadastro2"]', bloco2);
-    await page.type('input[name="ctl00$cphBody$txtCadastro3"]', bloco3);
-    await page.type('input[name="ctl00$cphBody$txtCadastro4"]', bloco4);
+    await page.type('#ctl00_cphBody_txtCadastro1', bloco1);
+    await page.type('#ctl00_cphBody_txtCadastro2', bloco2);
+    await page.type('#ctl00_cphBody_txtCadastro3', bloco3);
+    await page.type('#ctl00_cphBody_txtCadastro4', bloco4);
+    await page.type('#ctl00_cphBody_txtDataBase', dataHoje);
+
+    await Promise.all([
+      page.click('#ctl00_cphBody_btnPesquisar'),
+      page.waitForNavigation({ waitUntil: 'networkidle2' })
+    ]);
 
     // Preencher data automática (hoje)
     const today = new Date();
