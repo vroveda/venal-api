@@ -1,0 +1,14 @@
+{
+  "name": "valor-venal-api",
+  "version": "1.0.0",
+  "description": "API otimizada para buscar valor venal de imóvel na Prefeitura SP",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "puppeteer-core": "^21.3.8",
+    "chrome-aws-lambda": "^10.1.0"
+  }
+}
